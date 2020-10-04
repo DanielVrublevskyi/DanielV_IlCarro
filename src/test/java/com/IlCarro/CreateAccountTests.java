@@ -9,7 +9,8 @@ public class CreateAccountTests extends TestBase{
 // preconditions: user should be logged out
 
     public void ensurePreconditions(){
-        if(!isElementPresent(By.cssSelector("[href='/signup']"))){    //sign up not present
+        if(!isElementPresent(By.cssSelector("[href='/signup']"))) //sign up not present
+        {
             wd.findElement(By.xpath("//a[contains(., 'logOut')]")).click(); //click on logout button
         }
     }
