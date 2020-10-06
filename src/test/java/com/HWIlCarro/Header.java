@@ -1,11 +1,12 @@
-package com.IlCarro;
+package com.HWIlCarro;
 
+import com.HWIlCarro.TestBase2;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 
 
-public class Header extends TestBase2{
+public class Header extends TestBase2 {
 
     @Test
     public void testSearch(){
