@@ -25,7 +25,7 @@ public class TestBase {
 
     }
 
-    @AfterSuite //(enabled = false)
+    @AfterSuite (enabled = false)
     public void tearDown(){
         wd.quit();
     }
@@ -94,4 +94,7 @@ public class TestBase {
     }
 
 
+    public boolean isPresentElementLetTheCar() {
+        return isElementPresent(By.xpath("//a[contains(., 'logOut')]"));
+    }
 }

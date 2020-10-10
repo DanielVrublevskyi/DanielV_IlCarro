@@ -5,28 +5,28 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreateAccountTests extends TestBase{
+public class CreateAccountTests extends TestBase {
 // preconditions: user should be logged out
 
 
-
     @BeforeMethod
-    public void ensurePreconditions(){
-        if(!isSignUpPresentInHeader())
-        {
+    public void ensurePreconditions() {
+        if (!isSignUpPresentInHeader()) {
             logOut();
         }
     }
 
 
     @Test
-    public void testSignUp(){
-       wd.findElement(By.cssSelector("[href='/signup']")).click();     //click on SignUp button
+    public void testSignUp() throws InterruptedException {
+        wd.findElement(By.cssSelector("[href='/signup']")).click();     //click on SignUp button
         Assert.assertTrue(isElementPresent(By.cssSelector("form.signup__fields")));
-        type(By.cssSelector("#first_name"), "BB");
-        type(By.cssSelector("#second_name"), "CC");
-        type(By.cssSelector("#email"), "aa@bb15.com");
-        type(By.cssSelector("#password"),"Aa1234567");
+        fillRegistrationForm(new User()
+                            .setFirstName("CC")
+                            .setSecondName("BB")
+                            .setEmail("aa@bb15.com")
+                            .setPassword("Aa1234567"));
+
 
 
 //        wd.findElement(By.cssSelector("#second_name")).click();
@@ -41,13 +41,42 @@ public class CreateAccountTests extends TestBase{
 //        wd.findElement(By.cssSelector("#password")).clear();
 //        wd.findElement(By.cssSelector("#password")).sendKeys("Aa1234567");
 
+
 //        wd.findElement(By.cssSelector("#check_policy")).click();
         click(By.cssSelector("#check_policy"));
 //    click submit button
 
+
+        pause(200);
         submitForm();
 //    check login form displayed
         Assert.assertTrue(isLoginFormPresent());
     }
+
+    public void pause(int millis) throws InterruptedException {
+        Thread.sleep(millis);
+    }
+
+    public void fillRegistrationForm(User user) {
+        type(By.name("#first_name"), user.getFirstName());
+        type(By.name("#second_name"), user.getSecondName());
+        type(By.name("#email"), user.getEmail());
+        type(By.name("#password"), user.getPassword());
+    }
+
+    @Test
+    public void testSignUpWithoutPassword() throws InterruptedException {
+        wd.findElement(By.cssSelector("[href='/signup']")).click();     //click on SignUp button
+        Assert.assertTrue(isElementPresent(By.cssSelector("form.signup__fields")));
+
+        fillRegistrationForm(new User().setFirstName("Vasya").setSecondName("Katz").setEmail("qq@bb15.com"));
+
+        click(By.cssSelector("#check_policy"));
+        pause(200);
+//        submitForm();
+        Assert.assertTrue(isLoginFormPresent());
+    }
+
+
 
 }
