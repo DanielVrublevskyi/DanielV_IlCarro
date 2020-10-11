@@ -1,12 +1,11 @@
-package com.IlCarro;
+package com.Copy.IlCarro;
 
 import org.openqa.selenium.By;
-//import org.testng.Assert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class LoginTests extends TestBase{
+public class LoginTests extends TestBase {
    @BeforeMethod
    public void ensurePreconditions(){
 
@@ -32,7 +31,7 @@ public class LoginTests extends TestBase{
 
         Assert.assertTrue(isUserLoggedIn());
         String email = wd.findElement(By.cssSelector("[href='/account']")).getText();
-        System.out.println("user's email:" + email);
+
         Assert.assertEquals(email, "aa@bb15.com");
     }
 

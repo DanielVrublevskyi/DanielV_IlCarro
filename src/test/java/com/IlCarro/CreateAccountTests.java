@@ -9,7 +9,7 @@ public class CreateAccountTests extends TestBase {
 // preconditions: user should be logged out
 
 
-    @BeforeMethod
+    @BeforeMethod (enabled = false)
     public void ensurePreconditions() {
         if (!isSignUpPresentInHeader()) {
             logOut();
@@ -17,7 +17,7 @@ public class CreateAccountTests extends TestBase {
     }
 
 
-    @Test
+    @Test (enabled = false)
     public void testSignUp() throws InterruptedException {
         wd.findElement(By.cssSelector("[href='/signup']")).click();     //click on SignUp button
         Assert.assertTrue(isElementPresent(By.cssSelector("form.signup__fields")));
@@ -64,7 +64,7 @@ public class CreateAccountTests extends TestBase {
         type(By.name("#password"), user.getPassword());
     }
 
-    @Test
+    @Test (enabled = false)
     public void testSignUpWithoutPassword() throws InterruptedException {
         wd.findElement(By.cssSelector("[href='/signup']")).click();     //click on SignUp button
         Assert.assertTrue(isElementPresent(By.cssSelector("form.signup__fields")));
@@ -73,7 +73,7 @@ public class CreateAccountTests extends TestBase {
 
         click(By.cssSelector("#check_policy"));
         pause(200);
-//        submitForm();
+        submitForm();
         Assert.assertTrue(isLoginFormPresent());
     }
 
