@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 
 
-public class Header extends TestBase2 {
+public class HeaderButtonsTests extends TestBase2 {
 
     @Test
     public void testSearch(){

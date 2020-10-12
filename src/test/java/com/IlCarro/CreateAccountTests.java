@@ -1,6 +1,5 @@
 package com.IlCarro;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -11,72 +10,44 @@ public class CreateAccountTests extends TestBase {
 
     @BeforeMethod (enabled = false)
     public void ensurePreconditions() {
-        if (!isSignUpPresentInHeader()) {
-            logOut();
+        if (!appManager.getHeader().isSignUpPresentInHeader()) {
+            appManager.getUser1().logOut();
         }
     }
 
 
-    @Test (enabled = false)
+    @Test
     public void testSignUp() throws InterruptedException {
-        wd.findElement(By.cssSelector("[href='/signup']")).click();     //click on SignUp button
-        Assert.assertTrue(isElementPresent(By.cssSelector("form.signup__fields")));
-        fillRegistrationForm(new User()
-                            .setFirstName("CC")
-                            .setSecondName("BB")
-                            .setEmail("aa@bb15.com")
+        appManager.getUser1().openRegistrationFromHeader();     //click on SignUp button
+        Assert.assertTrue(appManager.getUser1().isRegistrationFormOpened());
+        appManager.getUser1().fillRegistrationForm(new User()
+                            .setFirstName("qqq")
+                            .setSecondName("qqq")
+                            .setEmail("qq@qq15.com")
                             .setPassword("Aa1234567"));
 
 
+        appManager.getUser1().selectPolicyCheckBox();
+        appManager.getCarHelper().pause(200);
+        appManager.getCarHelper().submitForm();
 
-//        wd.findElement(By.cssSelector("#second_name")).click();
-//        wd.findElement(By.cssSelector("#second_name")).clear();
-//        wd.findElement(By.cssSelector("#second_name")).sendKeys("CC");
-//
-//        wd.findElement(By.cssSelector("#email")).click();
-//        wd.findElement(By.cssSelector("#email")).clear();
-//        wd.findElement(By.cssSelector("#email")).sendKeys("aa@bb15.com");
-//
-//        wd.findElement(By.cssSelector("#password")).click();
-//        wd.findElement(By.cssSelector("#password")).clear();
-//        wd.findElement(By.cssSelector("#password")).sendKeys("Aa1234567");
-
-
-//        wd.findElement(By.cssSelector("#check_policy")).click();
-        click(By.cssSelector("#check_policy"));
-//    click submit button
-
-
-        pause(200);
-        submitForm();
 //    check login form displayed
-        Assert.assertTrue(isLoginFormPresent());
-    }
-
-    public void pause(int millis) throws InterruptedException {
-        Thread.sleep(millis);
-    }
-
-    public void fillRegistrationForm(User user) {
-        type(By.name("#first_name"), user.getFirstName());
-        type(By.name("#second_name"), user.getSecondName());
-        type(By.name("#email"), user.getEmail());
-        type(By.name("#password"), user.getPassword());
+        Assert.assertTrue(appManager.getUser1().isLoginFormPresent());
     }
 
     @Test (enabled = false)
-    public void testSignUpWithoutPassword() throws InterruptedException {
-        wd.findElement(By.cssSelector("[href='/signup']")).click();     //click on SignUp button
-        Assert.assertTrue(isElementPresent(By.cssSelector("form.signup__fields")));
+    public void testNegativeSignUpWithoutPassword() throws InterruptedException {
+        appManager.getUser1().openRegistrationFromHeader();     //click on SignUp button
+        Assert.assertTrue(appManager.getUser1().isRegistrationFormOpened());
 
-        fillRegistrationForm(new User().setFirstName("Vasya").setSecondName("Katz").setEmail("qq@bb15.com"));
+        appManager.getUser1().fillRegistrationForm(new User().setFirstName("Vasya").setSecondName("Katz").setEmail("qq@bb15.com"));
 
-        click(By.cssSelector("#check_policy"));
-        pause(200);
-        submitForm();
-        Assert.assertTrue(isLoginFormPresent());
+        appManager.getUser1().selectPolicyCheckBox();
+        appManager.getCarHelper().pause(200);
+        appManager.getCarHelper().submitForm();
+
+        Assert.assertFalse(appManager.getUser1().isLoginFormPresent());
     }
-
 
 
 }

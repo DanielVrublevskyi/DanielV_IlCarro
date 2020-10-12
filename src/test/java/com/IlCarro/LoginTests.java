@@ -1,6 +1,5 @@
 package com.IlCarro;
 
-import org.openqa.selenium.By;
 //import org.testng.Assert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -10,13 +9,13 @@ public class LoginTests extends TestBase{
    @BeforeMethod
    public void ensurePreconditions(){
 
-       if(!isLoginFormPresent())
+       if(!appManager.getUser1().isLoginFormPresent())
        {
-           if (isUserLoggedIn())
+           if (appManager.getUser1().isUserLoggedIn())
            {
-               logOut();
+               appManager.getUser1().logOut();
            }
-           clickLoginTabOnHeader();
+           appManager.getHeader().clickLoginTabOnHeader();
        }
 
    }
@@ -26,23 +25,14 @@ public class LoginTests extends TestBase{
     public void loginRegisteredUserTest(){
 
 
-        fillLoginForm(new User().setEmail("aa@bb15.com").setPassword("Aa1234567"));
+        appManager.getUser1().fillLoginForm(new User().setEmail("aa@bb15.com").setPassword("Aa1234567"));
 
-        submitForm();
+        appManager.getUser1().submitForm();
 
-        Assert.assertTrue(isUserLoggedIn());
-        String email = wd.findElement(By.cssSelector("[href='/account']")).getText();
+        Assert.assertTrue(appManager.getUser1().isUserLoggedIn());
+        String email = appManager.getHeader().getEmailTextFromHeader();
         System.out.println("user's email:" + email);
         Assert.assertEquals(email, "aa@bb15.com");
-    }
-
-    public void fillLoginForm(User user) {
-
-        type(By.name("email"), user.getEmail());
-        type(By.name("password"), user.getPassword());
-
-//        type(By.name("email"),"aa@bb15.com");
-//        type(By.name("password"),"Aa1234567");
     }
 
 
